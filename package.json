@@ -8,6 +8,7 @@
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "db:auth": "bun src/lib/auth-db.ts",
+    "db:seed": "npx tsx scripts/seed-data.ts",
     "start": "next start",
     "lint": "eslint"
   },

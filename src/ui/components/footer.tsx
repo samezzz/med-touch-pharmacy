@@ -33,7 +33,7 @@ export function Footer({ className }: { className?: string }) {
               </span>
             </Link>
             <p className="text-sm text-muted-foreground">
-              Your one-stop shop for everything tech. Premium products at
+              Your one-stop shop for everything pharmaceuticals. Premium products at
               competitive prices.
             </p>
             <div className="flex space-x-4">

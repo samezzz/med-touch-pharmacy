@@ -165,8 +165,7 @@ export function Header({ showAuth = true, adminUser }: HeaderProps) {
             {showAuth && (
               <div
                 className={`
-                  hidden
-                  md:block
+                  
                 `}
               >
                 {user ? (

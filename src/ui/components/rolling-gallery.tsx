@@ -127,7 +127,40 @@ const RollingGallery: React.FC<RollingGalleryProps> = ({ autoplay = false, pause
   };
 
   return (
-    <div className="relative w-full overflow-hidden h-[360px] md:h-[420px]">
+    <div className="relative w-full overflow-hidden h-[360px] md:h-[520px]">
+      {resolvedTheme === "dark" ? (
+       <>
+       {/* Left gradient */}
+       <div
+         className="absolute top-0 left-0 h-full w-[48px] z-10 
+           bg-[linear-gradient(to_left,rgba(0,0,0,0)_0%,#f6f7f9_50%)] 
+           dark:bg-[linear-gradient(to_left,rgba(0,0,0,0)_0%,#161617_100%)]"
+       />
+ 
+       {/* Right gradient */}
+       <div
+         className="absolute top-0 right-0 h-full w-[48px] z-10 
+           bg-[linear-gradient(to_right,rgba(0,0,0,0)_0%,#f6f7f9_50%)] 
+           dark:bg-[linear-gradient(to_right,rgba(0,0,0,0)_0%,#19191b_100%)]"
+       />
+     </>
+      ) : (
+        <>
+      {/* Left gradient */}
+      <div
+        className="absolute top-0 left-0 h-full w-[48px] z-10 
+          bg-[linear-gradient(to_left,rgba(0,0,0,0)_0%,#f6f7f9_50%)] 
+          dark:bg-[linear-gradient(to_left,rgba(0,0,0,0)_0%,#161617_100%)]"
+      />
+
+      {/* Right gradient */}
+      <div
+        className="absolute top-0 right-0 h-full w-[48px] z-10 
+          bg-[linear-gradient(to_right,rgba(0,0,0,0)_0%,#f6f7f9_50%)] 
+          dark:bg-[linear-gradient(to_right,rgba(0,0,0,0)_0%,#19191b_100%)]"
+      />
+    </>
+      )}
       <div className="flex h-full items-center justify-center [perspective:1000px] [transform-style:preserve-3d]">
         <motion.div
           drag="x"

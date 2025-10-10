@@ -1,0 +1,26 @@
+User-agent: *
+Allow: /
+Allow: /products
+Allow: /auth/sign-in
+Allow: /auth/sign-up
+Allow: /notifications
+
+# Disallow admin and dashboard areas
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /api/
+
+# Disallow auth pages that shouldn't be indexed
+Disallow: /auth/sign-out
+Disallow: /auth/mfa/
+
+# Allow search engines to crawl static assets
+Allow: /_next/static/
+Allow: /images/
+Allow: /icons/
+
+# Sitemap location
+Sitemap: https://med-touch-pharmacy.com/sitemap.xml
+
+# Crawl delay (optional - helps prevent server overload)
+Crawl-delay: 1

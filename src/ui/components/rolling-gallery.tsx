@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { motion, useMotionValue, useAnimation, useTransform, PanInfo, ResolvedValues } from 'motion/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useTheme } from 'next-themes';
 
 const IMGS: string[] = [
@@ -19,6 +20,7 @@ const IMGS: string[] = [
 interface RollingGalleryItem {
   src: string;
   name?: string;
+  slug?: string;
 }
 
 interface RollingGalleryProps {
@@ -179,16 +181,8 @@ const RollingGallery: React.FC<RollingGalleryProps> = ({ autoplay = false, pause
           }}
           className="flex min-h-[200px] cursor-grab items-center justify-center [transform-style:preserve-3d]"
         >
-          {galleryItems.map(({ src, name }, i) => (
-            <div
-              key={i}
-              className="group absolute p-2 [backface-visibility:hidden]"
-              style={{
-                width: `${faceWidth}px`,
-                height: `${itemHeight}px`,
-                transform: `rotateY(${(360 / faceCount) * i}deg) translateZ(${radius}px)`
-              }}
-            >
+          {galleryItems.map(({ src, name, slug }, i) => {
+            const itemContent = (
               <div className="relative h-full w-full overflow-hidden rounded-2xl border border-border bg-background shadow-lg transition-transform duration-300 ease-out group-hover:scale-[1.02] flex flex-col">
                 <div className="relative flex-1">
                   <Image
@@ -207,8 +201,37 @@ const RollingGallery: React.FC<RollingGalleryProps> = ({ autoplay = false, pause
                   </div>
                 ) : null}
               </div>
-            </div>
-          ))}
+            );
+
+            return (
+              <div
+                key={i}
+                className="group absolute p-2 [backface-visibility:hidden]"
+                style={{
+                  width: `${faceWidth}px`,
+                  height: `${itemHeight}px`,
+                  transform: `rotateY(${(360 / faceCount) * i}deg) translateZ(${radius}px)`
+                }}
+              >
+                {slug ? (
+                  <Link 
+                    href={`/products?category=${slug}`}
+                    className="block h-full w-full"
+                    onClick={(e) => {
+                      // Prevent navigation if dragging
+                      if (isDragging) {
+                        e.preventDefault();
+                      }
+                    }}
+                  >
+                    {itemContent}
+                  </Link>
+                ) : (
+                  itemContent
+                )}
+              </div>
+            );
+          })}
         </motion.div>
       </div>
     </div>

@@ -66,7 +66,11 @@ export function HomePageData({ categories, featuredProducts }: HomePageDataProps
           <RollingGallery
             autoplay
             pauseOnHover
-            items={categories.map((c) => ({ src: c.image || "/placeholder.svg", name: c.name }))}
+            items={categories.map((c) => ({ 
+              src: c.image || "/placeholder.svg", 
+              name: c.name,
+              slug: c.slug 
+            }))}
           />
           <div className="mt-6 flex justify-center">
             <Link href="/products">

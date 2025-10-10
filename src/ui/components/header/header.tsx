@@ -256,7 +256,7 @@ export function Header({ showAuth = true, adminUser }: HeaderProps) {
                 })}
             
             {/* Admin link (mobile) */}
-            {currentAdminUser && (
+            {/*currentAdminUser && (
               <div className="border-t pt-3 mt-3">
                 <Link
                   className={cn(
@@ -271,7 +271,7 @@ export function Header({ showAuth = true, adminUser }: HeaderProps) {
                   </span>
                 </Link>
               </div>
-            )}
+            )*/}
             
             {/* Mobile Categories */}
             <DynamicMobileCategories onCategoryClick={() => setMobileMenuOpen(false)} />

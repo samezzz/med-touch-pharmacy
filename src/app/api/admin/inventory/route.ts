@@ -5,8 +5,8 @@ import { inventoryTable, inventoryTransactionTable } from "@/db/schema";
 import { eq, and, lte } from "drizzle-orm";
 
 // GET /api/admin/inventory - Get inventory overview
-export const GET = withAdminAuth(
-  async (request: NextRequest, _adminUser) => {
+const getHandler = withAdminAuth(
+  async (request: NextRequest) => {
     try {
       const { searchParams } = new URL(request.url);
       const filter = searchParams.get("filter");
@@ -84,8 +84,13 @@ export const GET = withAdminAuth(
   "canManageInventory"
 );
 
+export async function GET(request: NextRequest, context: { params: Promise<Record<string, never>> }) {
+  await context.params;
+  return getHandler(request);
+}
+
 // POST /api/admin/inventory/adjustment - Make inventory adjustment
-export const POST = withAdminAuth(
+const postHandler = withAdminAuth(
   async (request: NextRequest, adminUser) => {
     try {
       const body = await request.json();
@@ -198,3 +203,8 @@ export const POST = withAdminAuth(
   },
   "canManageInventory"
 );
+
+export async function POST(request: NextRequest, context: { params: Promise<Record<string, never>> }) {
+  await context.params;
+  return postHandler(request);
+}

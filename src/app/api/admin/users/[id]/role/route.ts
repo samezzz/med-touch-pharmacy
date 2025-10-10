@@ -5,7 +5,7 @@ import { adminUserTable, adminRoleTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 // PUT /api/admin/users/[id]/role - Update user role
-export const PUT = withAdminAuth(
+const putHandler = withAdminAuth(
   async (request: NextRequest, adminUser, context?: { params: Record<string, string> }) => {
     try {
       const body = await request.json();
@@ -87,3 +87,8 @@ export const PUT = withAdminAuth(
   },
   "canManageCustomers"
 );
+
+export async function PUT(request: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const { id } = await context.params;
+  return putHandler(request, { params: { id } });
+}

@@ -5,8 +5,8 @@ import { productTable, inventoryTable } from "@/db/schema";
 import { eq, like, and } from "drizzle-orm";
 
 // GET /api/admin/products - Get all products with optional filtering
-export const GET = withAdminAuth(
-  async (request: NextRequest, _adminUser) => {
+const getHandler = withAdminAuth(
+  async (request: NextRequest) => {
     try {
       const { searchParams } = new URL(request.url);
       const search = searchParams.get("search");
@@ -63,8 +63,13 @@ export const GET = withAdminAuth(
   "canManageProducts"
 );
 
+export async function GET(request: NextRequest, context: { params: Promise<Record<string, never>> }) {
+  await context.params;
+  return getHandler(request);
+}
+
 // POST /api/admin/products - Create new product
-export const POST = withAdminAuth(
+const postHandler = withAdminAuth(
   async (request: NextRequest, adminUser) => {
     try {
       const body = await request.json();
@@ -156,3 +161,8 @@ export const POST = withAdminAuth(
   },
   "canManageProducts"
 );
+
+export async function POST(request: NextRequest, context: { params: Promise<Record<string, never>> }) {
+  await context.params;
+  return postHandler(request);
+}

@@ -5,8 +5,8 @@ import { categoryTable } from "@/db/schema";
 // (no additional operators needed)
 
 // GET /api/admin/categories - Get all categories
-export const GET = withAdminAuth(
-  async (_request: NextRequest, _adminUser) => {
+const getHandler = withAdminAuth(
+  async () => {
     try {
       const categories = await db.query.categoryTable.findMany({
         orderBy: (categories, { asc }) => [asc(categories.sortOrder)],
@@ -24,8 +24,13 @@ export const GET = withAdminAuth(
   "canManageCategories"
 );
 
+export async function GET(request: NextRequest, context: { params: Promise<Record<string, never>> }) {
+  await context.params; // satisfy Next.js typed route signature
+  return getHandler(request);
+}
+
 // POST /api/admin/categories - Create new category
-export const POST = withAdminAuth(
+const postHandler = withAdminAuth(
   async (request: NextRequest, adminUser) => {
     try {
       const body = await request.json();
@@ -64,3 +69,8 @@ export const POST = withAdminAuth(
   },
   "canManageCategories"
 );
+
+export async function POST(request: NextRequest, context: { params: Promise<Record<string, never>> }) {
+  await context.params; // satisfy typed route signature
+  return postHandler(request);
+}

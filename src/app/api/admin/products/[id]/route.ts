@@ -5,7 +5,7 @@ import { productTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 // GET /api/admin/products/[id] - Get product by ID
-export const GET = withAdminAuth(
+const getHandler = withAdminAuth(
   async (_request: NextRequest, _adminUser, context?: { params: Record<string, string> }) => {
     try {
       const params = context?.params as { id: string };
@@ -36,8 +36,13 @@ export const GET = withAdminAuth(
   "canManageProducts"
 );
 
+export async function GET(request: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const { id } = await context.params;
+  return getHandler(request, { params: { id } });
+}
+
 // PUT /api/admin/products/[id] - Update product
-export const PUT = withAdminAuth(
+const putHandler = withAdminAuth(
   async (request: NextRequest, _adminUser, context?: { params: Record<string, string> }) => {
     try {
       const params = context?.params as { id: string };
@@ -119,8 +124,13 @@ export const PUT = withAdminAuth(
   "canManageProducts"
 );
 
+export async function PUT(request: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const { id } = await context.params;
+  return putHandler(request, { params: { id } });
+}
+
 // DELETE /api/admin/products/[id] - Delete product
-export const DELETE = withAdminAuth(
+const deleteHandler = withAdminAuth(
   async (_request: NextRequest, _adminUser, context?: { params: Record<string, string> }) => {
     try {
       const params = context?.params as { id: string };
@@ -149,3 +159,8 @@ export const DELETE = withAdminAuth(
   },
   "canManageProducts"
 );
+
+export async function DELETE(request: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const { id } = await context.params;
+  return deleteHandler(request, { params: { id } });
+}

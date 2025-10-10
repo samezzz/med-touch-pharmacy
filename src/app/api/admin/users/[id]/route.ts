@@ -5,7 +5,7 @@ import { userTable, adminUserTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 // DELETE /api/admin/users/[id] - Delete user
-export const DELETE = withAdminAuth(
+const deleteHandler = withAdminAuth(
   async (_request: NextRequest, _adminUser, context?: { params: Record<string, string> }) => {
     try {
       const params = context?.params as { id: string };
@@ -52,3 +52,8 @@ export const DELETE = withAdminAuth(
   },
   "canManageCustomers"
 );
+
+export async function DELETE(request: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const { id } = await context.params;
+  return deleteHandler(request, { params: { id } });
+}

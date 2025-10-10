@@ -889,7 +889,7 @@ export function multiOptionFilterFn<TData>(
   }
 
   const sanitizedValue = (value as unknown[]).map((v) =>
-    columnMeta.transformOptionFn!(v),
+    columnMeta.transformOptionFn!(v as Record<string, unknown>),
   );
 
   return applyMultiOptionFilter(
@@ -947,7 +947,7 @@ export function optionFilterFn<TData>(
     return applyOptionFilter(value.value, filterValue);
   }
 
-  const sanitizedValue = columnMeta.transformOptionFn!(value as unknown);
+  const sanitizedValue = columnMeta.transformOptionFn!(value as Record<string, unknown>);
   return applyOptionFilter(sanitizedValue.value, filterValue);
 }
 

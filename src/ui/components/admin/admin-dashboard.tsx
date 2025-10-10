@@ -1,7 +1,7 @@
 "use client";
 
 import { Package, FolderOpen, AlertTriangle } from "lucide-react";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/ui/primitives/card";
 import { Skeleton } from "@/ui/primitives/skeleton";
@@ -58,10 +58,15 @@ export function AdminDashboard({ adminUser }: AdminDashboardProps) {
         if (!res.ok) return;
         const data = await res.json();
         setLowStockItems(Number(data?.stats?.lowStockItems ?? 0));
-        const list: InventoryItem[] = (data?.inventory ?? [])
-          .filter((inv: any) => inv.quantityInStock <= inv.lowStockThreshold)
-          .map((inv: any) => ({
-            product: { id: inv.product?.id, name: inv.product?.name },
+        type ApiInventory = {
+          product?: { id: string; name: string } | null;
+          quantityInStock: number;
+          lowStockThreshold: number;
+        };
+        const list: InventoryItem[] = ((data?.inventory as ApiInventory[]) ?? [])
+          .filter((inv) => inv.quantityInStock <= inv.lowStockThreshold)
+          .map((inv) => ({
+            product: { id: inv.product?.id ?? "", name: inv.product?.name ?? "" },
             quantityInStock: inv.quantityInStock,
             lowStockThreshold: inv.lowStockThreshold,
           }));

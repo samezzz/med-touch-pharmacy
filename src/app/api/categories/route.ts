@@ -3,7 +3,7 @@ import { db } from "@/db";
 import { categoryTable } from "@/db/schema";
 import { eq, asc } from "drizzle-orm";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const categories = await db.query.categoryTable.findMany({
       where: eq(categoryTable.isActive, true),

@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { withAdminAuth } from "@/lib/admin-middleware";
 import { db } from "@/db";
-import { categoryTable } from "@/db/schema";
+import { categoryTable, productTable } from "@/db/schema";
+import { sql } from "drizzle-orm";
 // (no additional operators needed)
 
 // GET /api/admin/categories - Get all categories
@@ -12,7 +13,26 @@ const getHandler = withAdminAuth(
         orderBy: (categories, { asc }) => [asc(categories.sortOrder)],
       });
 
-      return NextResponse.json({ categories });
+      // product counts per category
+      const counts = await db
+        .select({
+          categoryId: productTable.categoryId,
+          count: sql<number>`count(*)`,
+        })
+        .from(productTable)
+        .groupBy(productTable.categoryId);
+
+      const categoryIdToCount = new Map<string, number>();
+      for (const row of counts) {
+        if (row.categoryId) categoryIdToCount.set(row.categoryId, Number(row.count));
+      }
+
+      const categoriesWithCounts = categories.map((c) => ({
+        ...c,
+        productCount: categoryIdToCount.get(c.id) ?? 0,
+      }));
+
+      return NextResponse.json({ categories: categoriesWithCounts });
     } catch (error) {
       console.error("Error fetching categories:", error);
       return NextResponse.json(

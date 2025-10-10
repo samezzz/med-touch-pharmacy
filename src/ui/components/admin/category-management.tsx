@@ -372,7 +372,9 @@ export function CategoryManagement({ adminUser }: CategoryManagementProps) {
               {
                 key: "id",
                 label: "Products",
-                render: () => <Badge variant="secondary">24 products</Badge>,
+                render: (_value, item) => (
+                  <Badge variant="secondary">{(item as any).productCount ?? 0} products</Badge>
+                ),
               },
               {
                 key: "isActive",

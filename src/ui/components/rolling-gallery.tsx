@@ -50,6 +50,7 @@ const RollingGallery: React.FC<RollingGalleryProps> = ({ autoplay = false, pause
   }, [mounted, resolvedTheme]);
 
   const [isScreenSizeSm, setIsScreenSizeSm] = useState<boolean>(false);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
   useEffect(() => {
     const handleResize = () => setIsScreenSizeSm(window.innerWidth <= 640);
     handleResize();
@@ -103,11 +104,13 @@ const RollingGallery: React.FC<RollingGalleryProps> = ({ autoplay = false, pause
   };
 
   const handleDrag = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo): void => {
+    setIsDragging(true);
     controls.stop();
     rotation.set(rotation.get() + info.offset.x * dragFactor);
   };
 
   const handleDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo): void => {
+    setIsDragging(false);
     const finalAngle = rotation.get() + info.velocity.x * dragFactor;
     rotation.set(finalAngle);
     if (autoplay) {

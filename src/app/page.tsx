@@ -1,103 +1,406 @@
+import { ArrowRight, Clock, ShoppingBag, Star, Truck } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
-export default function Home() {
+import { TestimonialsSection, LightRays } from "@/ui/components/home-page-client";
+import { HomePageData } from "@/ui/components/home-page-data";
+import { Button } from "@/ui/primitives/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/ui/primitives/card";
+
+import { testimonials } from "./mocks";
+
+const featuresWhyChooseUs = [
+  {
+    description:
+      "Free shipping on all orders over $50. Fast and reliable delivery to your doorstep.",
+    icon: <Truck className="h-6 w-6 text-primary" />,
+    title: "Free Shipping",
+  },
+  {
+    description:
+      "Your payment information is always safe and secure with us. We use industry-leading encryption.",
+    icon: <ShoppingBag className="h-6 w-6 text-primary" />,
+    title: "Secure Checkout",
+  },
+  {
+    description:
+      "Our customer support team is always available to help with any questions or concerns.",
+    icon: <Clock className="h-6 w-6 text-primary" />,
+    title: "24/7 Support",
+  },
+  {
+    description:
+      "We stand behind the quality of every product we sell. 30-day money-back guarantee.",
+    icon: <Star className="h-6 w-6 text-primary" />,
+    title: "Quality Guarantee",
+  },
+];
+
+async function getHomePageData() {
+  try {
+    const [categoriesResponse, featuredProductsResponse] = await Promise.all([
+      fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/categories`, {
+        cache: 'no-store'
+      }),
+      fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/products/featured`, {
+        cache: 'no-store'
+      })
+    ]);
+
+    const [categoriesData, featuredProductsData] = await Promise.all([
+      categoriesResponse.json(),
+      featuredProductsResponse.json()
+    ]);
+
+    return {
+      categories: categoriesData.categories || [],
+      featuredProducts: featuredProductsData.products || []
+    };
+  } catch (error) {
+    console.error('Error fetching home page data:', error);
+    return {
+      categories: [],
+      featuredProducts: []
+    };
+  }
+}
+
+export default async function HomePage() {
+  const { categories, featuredProducts } = await getHomePageData();
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <>
+      <main
+        className={`
+          flex min-h-screen flex-col gap-y-16 bg-gradient-to-b from-muted/50
+          via-muted/25 to-background
+        `}
+      >
+        {/* Sample banner */}
+        {/* <UkraineBanner /> */}
+        
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+        {/* Hero Section */}
+        <section
+          className={`
+            relative overflow-hidden py-24
+            md:py-32
+          `}
+        >
+          <div
+            className={`
+              bg-grid-black/[0.02] absolute inset-0
+              bg-[length:20px_20px]
+            `}
+          />
+          <LightRays 
+            raysOrigin="top-center"
+            raysColor="#fffffff"
+            raysSpeed={1.5}
+            lightSpread={0.8} 
+            rayLength={1.4}
+            followMouse={true}
+            mouseInfluence={0.1}
+            noiseAmount={0.1}
+            distortion={0.05}
+            className="pointer-events-none absolute inset-0 z-[5]"
+          />
+          <div
+            className={`
+              relative z-10 container mx-auto max-w-7xl px-4
+              sm:px-6
+              lg:px-8
+            `}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+            <div
+              className={`
+                grid items-center gap-10
+                lg:grid-cols-2 lg:gap-12
+              `}
+            >
+              <div className="flex flex-col justify-center space-y-6">
+                <div className="space-y-4">
+
+                  <h1
+                    className={`
+                      font-display text-4xl leading-tight font-bold
+                      tracking-tight text-foreground
+                      sm:text-5xl
+                      md:text-6xl
+                      lg:leading-[1.1]
+                    `}
+                  >
+                    Your One-Stop Pharmacy for{" "}
+                    <span
+                      className={`
+                        bg-gradient-to-r from-primary to-primary/70 bg-clip-text
+                        text-transparent
+                      `}
+                    >
+                      Trusted Health & Wellness
+                    </span>
+                  </h1>
+                  <p
+                    className={`
+                      max-w-[700px] text-lg text-muted-foreground
+                      md:text-xl
+                    `}
+                  >
+                    Discover genuine medicines, supplements, and health essentials at fair
+                    prices, with fast delivery and caring customer support.
+                  </p>
+                </div>
+                <div
+                  className={`
+                    flex flex-col gap-3
+                    sm:flex-row
+                  `}
+                >
+                  <Link href="/products">
+                    <Button
+                      className={`
+                        h-12 gap-1.5 px-8 transition-colors duration-200
+                      `}
+                      size="lg"
+                    >
+                      Shop Now <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </Link>
+                  <Link href="/showcase">
+                    <Button
+                      className="h-12 px-8 transition-colors duration-200"
+                      size="lg"
+                      variant="outline"
+                    >
+                      View Showcase
+                    </Button>
+                  </Link>
+                </div>
+                <div
+                  className={`
+                    flex flex-wrap gap-5 text-sm text-muted-foreground
+                  `}
+                >
+                  <div className="flex items-center gap-1.5">
+                    <Truck className="h-5 w-5 text-primary/70" />
+                    <span>Free shipping over $50</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <Clock className="h-5 w-5 text-primary/70" />
+                    <span>24/7 Customer Support</span>
+                  </div>
+                </div>
+              </div>
+              <div
+                className={`
+                  relative mx-auto hidden aspect-square w-full max-w-md
+                  overflow-hidden rounded-xl border shadow-lg
+                  lg:block
+                `}
+              >
+                <div
+                  className={`
+                    absolute inset-0 z-10 bg-gradient-to-tr from-primary/20
+                    via-transparent to-transparent
+                  `}
+                />
+                <Image
+                  alt="Pharmacy shopping experience"
+                  className="object-cover"
+                  fill
+                  priority
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  src="https://images.unsplash.com/photo-1624767735494-1929dc24ad43?w=400&auto=format&fit=crop&q=80&ixlib=rb-4.0.3"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            className={`
+              absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent
+              via-primary/20 to-transparent
+            `}
+          />
+        </section>
+
+        {/* Dynamic Categories and Featured Products */}
+        <HomePageData categories={categories} featuredProducts={featuredProducts} />
+
+        {/* Features Section */}
+        <section
+          className={`
+            py-12
+            md:py-16
+          `}
+          id="features"
+        >
+          <div
+            className={`
+              container mx-auto max-w-7xl px-4
+              sm:px-6
+              lg:px-8
+            `}
+          >
+            <div className="mb-8 flex flex-col items-center text-center">
+              <h2
+                className={`
+                  font-display text-3xl leading-tight font-bold tracking-tight
+                  md:text-4xl
+                `}
+              >
+                Why Choose Us
+              </h2>
+              <div className="mt-2 h-1 w-12 rounded-full bg-primary" />
+              <p
+                className={`
+                  mt-4 max-w-2xl text-center text-muted-foreground
+                  md:text-lg
+                `}
+              >
+                We offer the best shopping experience with premium features
+              </p>
+            </div>
+            <div
+              className={`
+                grid gap-8
+                md:grid-cols-2
+                lg:grid-cols-4
+              `}
+            >
+              {featuresWhyChooseUs.map((feature) => (
+                <Card
+                  className={`
+                    rounded-2xl border-none bg-background shadow transition-all
+                    duration-300
+                    hover:shadow-lg
+                  `}
+                  key={feature.title}
+                >
+                  <CardHeader className="pb-2">
+                    <div
+                      className={`
+                        mb-3 flex h-12 w-12 items-center justify-center
+                        rounded-full bg-primary/10
+                      `}
+                    >
+                      {feature.icon}
+                    </div>
+                    <CardTitle>{feature.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className="text-base">
+                      {feature.description}
+                    </CardDescription>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Testimonials */}
+        <section
+          className={`
+            bg-muted/50 py-12
+            md:py-16
+          `}
+        >
+          <div
+            className={`
+              container mx-auto max-w-7xl px-4
+              sm:px-6
+              lg:px-8
+            `}
+          >
+            <TestimonialsSection
+              className="py-0"
+              description="Don't just take our word for it - hear from our satisfied customers"
+              testimonials={testimonials}
+              title="What Our Customers Say"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section
+          className={`
+            py-12
+            md:py-16
+          `}
+        >
+          <div
+            className={`
+              container mx-auto max-w-7xl px-4
+              sm:px-6
+              lg:px-8
+            `}
           >
-            Read our docs
-          </a>
-        </div>
+            <div
+              className={`
+                relative overflow-hidden rounded-xl bg-primary/10 p-8 shadow-lg
+                md:p-12
+              `}
+            >
+              <div
+                className={`
+                  bg-grid-white/[0.05] absolute inset-0
+                  bg-[length:16px_16px]
+                `}
+              />
+              <div className="relative z-10 mx-auto max-w-2xl text-center">
+                <h2
+                  className={`
+                    font-display text-3xl leading-tight font-bold tracking-tight
+                    md:text-4xl
+                  `}
+                >
+                  Ready to Take Control of Your Health?
+                </h2>
+                <p
+                  className={`
+                    mt-4 text-lg text-muted-foreground
+                    md:text-xl
+                  `}
+                >
+                  Join thousands of satisfied customers and experience the best
+                  pharmacy products on the market. Sign up today for exclusive deals
+                  and health tips.
+                </p>
+                <div
+                  className={`
+                    mt-6 flex flex-col items-center justify-center gap-3
+                    sm:flex-row
+                  `}
+                >
+                  <Link href="/auth/sign-up">
+                    <Button
+                      className="h-12 px-8 transition-colors duration-200"
+                      size="lg"
+                    >
+                      Sign Up Now
+                    </Button>
+                  </Link>
+                  <Link href="/products">
+                    <Button
+                      className="h-12 px-8 transition-colors duration-200"
+                      size="lg"
+                      variant="outline"
+                    >
+                      Browse Products
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    </>
   );
 }

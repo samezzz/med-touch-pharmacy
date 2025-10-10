@@ -162,6 +162,12 @@ export function Header({ showAuth = true, adminUser }: HeaderProps) {
               <NotificationsWidget />
             )}
 
+            {isPending ? (
+              <Skeleton className={`h-9 w-9 rounded-full`} />
+            ) : (
+              <ThemeToggle />
+            )}
+
             {showAuth && (
               <div
                 className={`
@@ -191,12 +197,6 @@ export function Header({ showAuth = true, adminUser }: HeaderProps) {
                   </div>
                 )}
               </div>
-            )}
-
-            {isPending ? (
-              <Skeleton className={`h-9 w-9 rounded-full`} />
-            ) : (
-              <ThemeToggle />
             )}
 
             {/* Mobile menu button */}
@@ -267,7 +267,7 @@ export function Header({ showAuth = true, adminUser }: HeaderProps) {
                 >
                   <span className="inline-flex items-center gap-2">
                     <LayoutDashboard className="h-4 w-4" />
-                    Admin
+                    Manager&apos;s Dashboard
                   </span>
                 </Link>
               </div>

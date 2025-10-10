@@ -53,7 +53,7 @@ interface ProductsPageClientProps {
 
 export function ProductsPageClient({ initialProducts, initialPagination }: ProductsPageClientProps) {
   const searchParams = useSearchParams();
-  const { addItem } = useCart();
+  const { addItem: _addItem } = useCart();
   const [products, setProducts] = React.useState<Product[]>(initialProducts);
   const [pagination, setPagination] = React.useState(initialPagination);
   const [loading, setLoading] = React.useState(false);

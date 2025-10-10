@@ -8,6 +8,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import Image from "next/image";
 import { toast } from "sonner";
 
 import { Button } from "@/ui/primitives/button";
@@ -254,15 +255,15 @@ const GalleryMedia: React.FC<GalleryMediaProps> = React.memo(
             <span>Image not available</span>
           </div>
         ) : (
-          <img
+          <Image
             alt={item.title}
-            aria-label={item.title}
             className="max-h-full max-w-full cursor-pointer object-contain"
-            decoding="async"
+            height={800}
             loading="lazy"
             onClick={onClick}
             onError={handleImgError}
             src={item.url}
+            width={800}
           />
         )}
       </div>

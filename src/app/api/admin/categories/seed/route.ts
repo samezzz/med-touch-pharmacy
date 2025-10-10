@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { withAdminAuth } from "@/lib/admin-middleware";
 import { db } from "@/db";
 import { categoryTable } from "@/db/schema";
-import { eq } from "drizzle-orm";
 
 function slugify(input: string): string {
   return input

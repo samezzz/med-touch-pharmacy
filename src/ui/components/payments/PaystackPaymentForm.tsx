@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 import { Button } from "@/ui/primitives/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/ui/primitives/card";
@@ -26,9 +25,8 @@ export function PaystackPaymentForm({
   buttonText = "Pay Now",
   title = "Upgrade to Pro",
   description = "Get access to all premium features and support the project.",
-  onSuccess,
+  onSuccess: _onSuccess,
 }: PaystackPaymentFormProps) {
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [email, setEmail] = useState("");

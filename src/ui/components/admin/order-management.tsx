@@ -33,7 +33,7 @@ type Order = {
   updatedAt?: Date;
 };
 
-export function OrderManagement({ adminUser }: OrderManagementProps) {
+export function OrderManagement({ adminUser: _adminUser }: OrderManagementProps) {
   const [orders, setOrders] = useState<Order[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");

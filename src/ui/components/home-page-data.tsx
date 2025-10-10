@@ -1,7 +1,6 @@
 "use client";
 
 import { ProductCard } from "@/ui/components/product-card";
-import { FallbackImage } from "@/ui/components/fallback-image";
 import RollingGallery from "@/ui/components/rolling-gallery";
 import { Button } from "@/ui/primitives/button";
 import { ArrowRight } from "lucide-react";

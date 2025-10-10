@@ -27,7 +27,7 @@ interface CategoryManagementProps {
   adminUser: AdminUserWithDetails;
 }
 
-export function CategoryManagement({ adminUser }: CategoryManagementProps) {
+export function CategoryManagement({ adminUser: _adminUser }: CategoryManagementProps) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
@@ -373,7 +373,7 @@ export function CategoryManagement({ adminUser }: CategoryManagementProps) {
                 key: "id",
                 label: "Products",
                 render: (_value, item) => (
-                  <Badge variant="secondary">{(item as any).productCount ?? 0} products</Badge>
+                  <Badge variant="secondary">{(item as Category & { productCount?: number }).productCount ?? 0} products</Badge>
                 ),
               },
               {

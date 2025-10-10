@@ -278,7 +278,7 @@ async function seedData() {
         id: "system_admin",
         name: "System Administrator",
         email: "admin@medtouch.com",
-        emailVerified: now,
+        emailVerified: true,
         createdAt: now,
         updatedAt: now,
       }).returning();
@@ -352,7 +352,7 @@ async function seedData() {
         images: JSON.stringify(p.images),
         isActive: true,
         isFeatured: index < 5, // First 5 products are featured
-        requiresPrescription: p.requiresPrescription || false,
+        requiresPrescription: (p as any).requiresPrescription || false,
         weight: p.weight?.toString() || null,
         manufacturer: p.manufacturer,
         createdAt: now,

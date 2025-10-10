@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Baby, Heart, Pill, Stethoscope, Syringe, Tablet, TestTube, Utensils, Shield, Eye, Brain, Activity } from "lucide-react";
 import Link from "next/link";
 
@@ -13,6 +13,7 @@ import {
   NavigationMenuTrigger,
 } from "@/ui/primitives/navigation-menu";
 import { cn } from "@/lib/cn";
+import { Input } from "@/ui/primitives/input";
 
 interface Category {
   id: string;
@@ -47,6 +48,7 @@ const categoryIcons: Record<string, React.ComponentType<{ className?: string }>>
 export function DynamicCategoryNavigation() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -63,6 +65,15 @@ export function DynamicCategoryNavigation() {
 
     fetchCategories();
   }, []);
+  const filteredCategories = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) return categories;
+    return categories.filter((c) =>
+      c.name.toLowerCase().includes(q) ||
+      (c.description ? c.description.toLowerCase().includes(q) : false) ||
+      c.slug.toLowerCase().includes(q)
+    );
+  }, [categories, searchQuery]);
 
   if (loading) {
     return (
@@ -89,8 +100,20 @@ export function DynamicCategoryNavigation() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Categories</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <div className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-              {categories.map((category) => {
+            <div className="w-[420px] md:w-[560px] lg:w-[720px] p-0">
+              {/* Sticky search */}
+              <div className="sticky top-0 z-10 border-b bg-popover/80 backdrop-blur supports-[backdrop-filter]:bg-popover/60 p-3">
+                <Input
+                  placeholder="Search categories..."
+                  className="h-9"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+              {/* Scrollable list */}
+              <div className="max-h-[70vh] overflow-y-auto">
+                <div className="grid gap-3 p-4 md:grid-cols-2 lg:grid-cols-3">
+                  {filteredCategories.map((category) => {
                 const IconComponent = categoryIcons[category.slug] || Pill;
                 return (
                   <NavigationMenuLink key={category.id} asChild>
@@ -112,7 +135,15 @@ export function DynamicCategoryNavigation() {
                     </Link>
                   </NavigationMenuLink>
                 );
-              })}
+                  })}
+                </div>
+              </div>
+              {/* Footer link */}
+              <div className="border-t p-3 text-right">
+                <Link href="/products" className="text-sm font-medium text-primary hover:underline">
+                  View all categories
+                </Link>
+              </div>
             </div>
           </NavigationMenuContent>
         </NavigationMenuItem>

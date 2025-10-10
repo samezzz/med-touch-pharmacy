@@ -40,6 +40,7 @@ interface DynamicMobileCategoriesProps {
 export function DynamicMobileCategories({ onCategoryClick }: DynamicMobileCategoriesProps) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -81,13 +82,15 @@ export function DynamicMobileCategories({ onCategoryClick }: DynamicMobileCatego
     return null;
   }
 
+  const visibleCategories = expanded ? categories : categories.slice(0, 12);
+
   return (
     <div className="border-t pt-3 mt-3">
       <div className="text-sm font-medium text-muted-foreground mb-2 px-3">
         Categories
       </div>
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-        {categories.map((category) => (
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 max-h-[45vh] overflow-y-auto pr-1">
+        {visibleCategories.map((category) => (
           <Link
             key={category.id}
             className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/50 hover:text-primary"
@@ -101,6 +104,16 @@ export function DynamicMobileCategories({ onCategoryClick }: DynamicMobileCatego
           </Link>
         ))}
       </div>
+      {categories.length > 12 && (
+        <div className="mt-2 px-3">
+          <button
+            className="w-full rounded-md border px-3 py-2 text-sm font-medium hover:bg-muted/50"
+            onClick={() => setExpanded((v) => !v)}
+          >
+            {expanded ? "Show less" : `Show ${categories.length - 12} more`}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

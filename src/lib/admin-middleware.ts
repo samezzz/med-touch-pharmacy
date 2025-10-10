@@ -26,7 +26,7 @@ export async function requireAdmin() {
  * Middleware to check if admin has specific permission
  */
 export function requirePermission(permission: keyof AdminPermissions) {
-  return async (request: NextRequest) => {
+  return async (_request: NextRequest) => {
     const adminUser = await isAdmin();
     
     if (!adminUser) {
@@ -51,7 +51,7 @@ export function requirePermission(permission: keyof AdminPermissions) {
  * Middleware to check if admin has any of the specified permissions
  */
 export function requireAnyPermission(permissions: (keyof AdminPermissions)[]) {
-  return async (request: NextRequest) => {
+  return async (_request: NextRequest) => {
     const adminUser = await isAdmin();
     
     if (!adminUser) {
@@ -76,7 +76,7 @@ export function requireAnyPermission(permissions: (keyof AdminPermissions)[]) {
  * Middleware to check if admin has all of the specified permissions
  */
 export function requireAllPermissions(permissions: (keyof AdminPermissions)[]) {
-  return async (request: NextRequest) => {
+  return async (_request: NextRequest) => {
     const adminUser = await isAdmin();
     
     if (!adminUser) {

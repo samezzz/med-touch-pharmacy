@@ -2,6 +2,7 @@
 
 import type { Column, ColumnDef, ColumnMeta } from "@tanstack/react-table";
 import type React from "react";
+import Image from "next/image";
 
 import { Hash, Mail, User as UserIcon } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
@@ -119,11 +120,14 @@ const AdminPageClient: React.FC<AdminPageClientProps> = ({ initialData }) => {
                     variant="outline"
                   >
                     {upload.type === "image" ? (
-                      <img
+                      <Image
                         alt={upload.key}
-                        className="h-8 w-8 rounded-sm object-cover"
+                        className="rounded-sm object-cover"
+                        draggable={false}
+                        height={32}
                         loading="lazy"
                         src={upload.url}
+                        width={32}
                       />
                     ) : (
                       <div

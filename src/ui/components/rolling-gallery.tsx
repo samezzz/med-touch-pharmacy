@@ -31,19 +31,26 @@ interface RollingGalleryProps {
 
 const RollingGallery: React.FC<RollingGalleryProps> = ({ autoplay = false, pauseOnHover = false, images = [], labels = [], items = [] }) => {
   const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   // Normalize into items with src + optional name for rendering
   const galleryItems: RollingGalleryItem[] = useMemo(() => {
     if (items.length > 0) return items;
     if (images.length > 0) return images.map((src, i) => ({ src, name: labels[i] }));
     return IMGS.map((src) => ({ src }));
   }, [images, items, labels]);
-  const fallbackSrc = useMemo(() => (
-    resolvedTheme === 'dark' ? '/placeholder-dark.svg' : '/placeholder.svg'
-  ), [resolvedTheme]);
+  const fallbackSrc = useMemo(() => {
+    // Use a stable default during SSR/first render to avoid hydration mismatch
+    if (!mounted) return '/placeholder.svg';
+    return resolvedTheme === 'dark' ? '/placeholder-dark.svg' : '/placeholder.svg';
+  }, [mounted, resolvedTheme]);
 
-  const [isScreenSizeSm, setIsScreenSizeSm] = useState<boolean>(typeof window !== 'undefined' ? window.innerWidth <= 640 : false);
+  const [isScreenSizeSm, setIsScreenSizeSm] = useState<boolean>(false);
   useEffect(() => {
     const handleResize = () => setIsScreenSizeSm(window.innerWidth <= 640);
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { withAdminAuth } from "@/lib/admin-middleware";
 import { db } from "@/db";
 import { categoryTable } from "@/db/schema";
-import { and, eq, or } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 function slugify(input: string): string {
   return input
@@ -84,9 +84,9 @@ const handler = withAdminAuth(async (_request: NextRequest, adminUser) => {
   }
 }, "canManageCategories");
 
-export async function POST(request: NextRequest, context: { params: Promise<Record<string, never>> }) {
+export async function POST(_request: NextRequest, context: { params: Promise<Record<string, never>> }) {
   await context.params;
-  return handler(request);
+  return handler(_request);
 }
 
 

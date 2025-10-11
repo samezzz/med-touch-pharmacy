@@ -20,6 +20,50 @@ const nextConfig: NextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",
   },
+  // Add CORS headers for API routes
+  async headers() {
+    return [
+      {
+        source: "/api/:path*",
+        headers: [
+          {
+            key: "Access-Control-Allow-Origin",
+            value: process.env.NODE_ENV === "production" 
+              ? "https://www.med-touchpharmacy.com" 
+              : "*",
+          },
+          {
+            key: "Access-Control-Allow-Methods",
+            value: "GET, POST, PUT, DELETE, OPTIONS",
+          },
+          {
+            key: "Access-Control-Allow-Headers",
+            value: "Content-Type, Authorization, Cookie",
+          },
+          {
+            key: "Access-Control-Allow-Credentials",
+            value: "true",
+          },
+        ],
+      },
+    ];
+  },
+  // Handle redirects to ensure consistent domain usage
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: "med-touchpharmacy.com",
+          },
+        ],
+        destination: "https://www.med-touchpharmacy.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

@@ -11,6 +11,7 @@ import { GoogleIcon } from "@/ui/components/icons/google";
 import { Button } from "@/ui/primitives/button";
 import { Card, CardContent } from "@/ui/primitives/card";
 import { Input } from "@/ui/primitives/input";
+import { PasswordInput } from "@/ui/primitives/password-input";
 import { Label } from "@/ui/primitives/label";
 import { Separator } from "@/ui/primitives/separator";
 
@@ -152,12 +153,11 @@ export function SignUpPageClient() {
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="password">Password</Label>
-                  <Input
+                  <PasswordInput
                     id="password"
                     name="password"
                     onChange={handleChange}
                     required
-                    type="password"
                     value={formData.password}
                   />
                 </div>

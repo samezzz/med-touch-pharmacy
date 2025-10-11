@@ -101,6 +101,7 @@ export const auth = betterAuth({
 
   emailAndPassword: {
     enabled: true,
+    requireEmailVerification: false, // Disable email verification for now
   },
 
   // Configure OAuth behavior

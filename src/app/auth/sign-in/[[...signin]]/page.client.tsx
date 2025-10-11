@@ -11,6 +11,7 @@ import { GoogleIcon } from "@/ui/components/icons/google";
 import { Button } from "@/ui/primitives/button";
 import { Card, CardContent } from "@/ui/primitives/card";
 import { Input } from "@/ui/primitives/input";
+import { PasswordInput } from "@/ui/primitives/password-input";
 import { Label } from "@/ui/primitives/label";
 import { Separator } from "@/ui/primitives/separator";
 
@@ -143,13 +144,12 @@ export function SignInPageClient() {
                       Forgot password?
                     </Link>
                   </div>
-                  <Input
+                  <PasswordInput
                     id="password"
                     onChange={(e) => {
                       setPassword(e.target.value);
                     }}
                     required
-                    type="password"
                     value={password}
                   />
                 </div>

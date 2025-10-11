@@ -15,7 +15,7 @@ export const SYSTEM_CONFIG = {
 };
 
 export const ADMIN_CONFIG = {
-  displayEmails: false,
+  displayEmails: true,
 };
 
 export const DB_DEV_LOGGER = false;

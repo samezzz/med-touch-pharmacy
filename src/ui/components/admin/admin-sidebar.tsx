@@ -225,7 +225,7 @@ export function AdminSidebar({ adminUser }: AdminSidebarProps) {
   };
 
   const filteredNavigation = navigationItems.filter((item) =>
-    item.name === "Dashboard" ? true : hasPermission(item.permission),
+    hasPermission(item.permission),
   );
 
   return (

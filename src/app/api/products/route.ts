@@ -8,6 +8,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const category = searchParams.get("category");
     const search = searchParams.get("search");
+    const slug = searchParams.get("slug");
     const page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "12");
     const offset = (page - 1) * limit;
@@ -33,6 +34,10 @@ export async function GET(request: NextRequest) {
 
     if (search) {
       whereConditions.push(ilike(productTable.name, `%${search}%`));
+    }
+
+    if (slug) {
+      whereConditions.push(eq(productTable.slug, slug));
     }
 
     // Get products with category and inventory information

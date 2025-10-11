@@ -53,7 +53,7 @@ interface ProductsPageClientProps {
 
 export function ProductsPageClient({ initialProducts, initialPagination }: ProductsPageClientProps) {
   const searchParams = useSearchParams();
-  const { addItem: _addItem } = useCart();
+  // const { addItem: _addItem } = useCart(); // Unused for now
   const [products, setProducts] = React.useState<Product[]>(initialProducts);
   const [pagination, setPagination] = React.useState(initialPagination);
   const [loading, setLoading] = React.useState(false);
@@ -203,6 +203,7 @@ export function ProductsPageClient({ initialProducts, initialPagination }: Produ
               key={product.id}
               product={{
                 id: product.id,
+                slug: product.slug,
                 name: product.name,
                 price: parseFloat(product.price),
                 originalPrice: product.originalPrice ? parseFloat(product.originalPrice) : undefined,
@@ -217,6 +218,9 @@ export function ProductsPageClient({ initialProducts, initialPagination }: Produ
                 category: product.categoryName || "Uncategorized",
                 inStock: (product.quantityAvailable || 0) > 0,
                 rating: 0,
+                manufacturer: product.manufacturer,
+                sku: product.sku,
+                quantityAvailable: product.quantityAvailable,
               }}
             />
           ))}

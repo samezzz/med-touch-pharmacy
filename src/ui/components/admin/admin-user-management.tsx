@@ -39,7 +39,7 @@ const mockAdminRoles: AdminRole[] = [
   {
     id: "super_admin",
     name: "super_admin",
-    description: "Super Administrator with full access",
+    description: "Manager with full access",
     permissions: JSON.stringify({
       canManageProducts: true,
       canManageCategories: true,
@@ -348,7 +348,7 @@ export function AdminUserManagement({ adminUser }: AdminUserManagementProps) {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Super Admins</CardTitle>
+            <CardTitle className="text-sm font-medium">Managers</CardTitle>
             <Shield className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>

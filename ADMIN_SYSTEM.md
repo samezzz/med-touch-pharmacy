@@ -8,9 +8,9 @@ The Med-Touch Pharmacy admin system provides comprehensive management capabiliti
 
 ### 🔐 Admin Authentication & Authorization
 - **Role-based access control** with three permission levels:
-  - **Super Admin**: Full system access
+  - **Manager**: Full system access
   - **Admin**: Most permissions except admin management
-  - **Manager**: Limited permissions for day-to-day operations
+  - **Customer**: Limited permissions for day-to-day operations
 - **Secure route protection** with middleware
 - **Session management** integrated with Better Auth
 

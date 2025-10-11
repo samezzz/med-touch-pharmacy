@@ -1,10 +1,11 @@
 "use client";
 
-import { ProductCard } from "@/ui/components/product-card";
 import RollingGallery from "@/ui/components/rolling-gallery";
+import Masonry from "@/ui/components/masonry";
 import { Button } from "@/ui/primitives/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { useMediaQuery } from "@/lib/hooks/use-media-query";
 
 interface Category {
   id: string;
@@ -48,7 +49,44 @@ interface HomePageDataProps {
   featuredProducts: Product[];
 }
 
+// Function to generate random heights for masonry layout
+const generateRandomHeight = () => {
+  const heights = [200, 250, 300, 350, 400, 450, 500, 550, 600];
+  return heights[Math.floor(Math.random() * heights.length)];
+};
+
+// Function to determine what information to show based on height
+const getProductInfoLevel = (height: number) => {
+  if (height <= 250) return 'minimal'; // Just name and price
+  if (height <= 350) return 'basic'; // Name, price, category
+  if (height <= 450) return 'standard'; // Name, price, category, rating
+  if (height <= 550) return 'detailed'; // Name, price, category, rating, manufacturer
+  return 'full'; // All information including description
+};
+
 export function HomePageData({ categories, featuredProducts }: HomePageDataProps) {
+  // Use media query to determine if we're on mobile or larger screens
+  const isMobile = useMediaQuery("(max-width: 768px)");
+  
+  // Limit items based on screen size: 6 for mobile, 15 for medium+ screens
+  const maxItems = isMobile ? 6 : 15;
+  const limitedProducts = featuredProducts.slice(0, maxItems);
+  
+  // Transform products into masonry items with random heights
+  const masonryItems = limitedProducts.map((product) => {
+    const height = generateRandomHeight();
+    const infoLevel = getProductInfoLevel(height);
+    
+    return {
+      id: product.id,
+      img: JSON.parse(product.images)[0] || "/placeholder.svg",
+      url: `/products/${product.slug}`,
+      height,
+      product,
+      infoLevel
+    };
+  });
+
   return (
     <>
       {/* Featured Categories - Rolling Gallery */}
@@ -88,7 +126,7 @@ export function HomePageData({ categories, featuredProducts }: HomePageDataProps
         </div>
       </section>
 
-      {/* Featured Products */}
+      {/* Featured Products - Masonry Layout */}
       <section className="bg-muted/50 py-12 md:py-16">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-8 flex flex-col items-center text-center">
@@ -100,24 +138,23 @@ export function HomePageData({ categories, featuredProducts }: HomePageDataProps
               Check out our latest and most popular pharmacy products
             </p>
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {featuredProducts.map((product) => (
-              <ProductCard 
-                key={product.id} 
-                product={{
-                  id: product.id,
-                  name: product.name,
-                  price: parseFloat(product.price),
-                  originalPrice: product.originalPrice ? parseFloat(product.originalPrice) : undefined,
-                  image: JSON.parse(product.images)[0] || "/placeholder.svg",
-                  category: product.categoryName || "Uncategorized",
-                  inStock: product.inStock,
-                  rating: product.rating || 0,
-                }}
-              />
-            ))}
+          
+          {/* Masonry Layout */}
+          <div className="relative w-full">
+            <Masonry
+              items={masonryItems}
+              ease="power3.out"
+              duration={0.6}
+              stagger={0.05}
+              animateFrom="bottom"
+              scaleOnHover={true}
+              hoverScale={0.95}
+              blurToFocus={true}
+              colorShiftOnHover={false}
+            />
           </div>
-          <div className="mt-10 flex justify-center">
+          
+          <div className={`${isMobile ? 'mt-4' : 'mt-6'} flex justify-center`}>
             <Link href="/products">
               <Button className="group h-12 px-8" size="lg" variant="outline">
                 View All Products

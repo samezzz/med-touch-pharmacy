@@ -19,12 +19,16 @@ type ProductCardProps = Omit<
   product: {
     category: string;
     id: string;
+    slug: string;
     image: string;
     inStock?: boolean;
     name: string;
     originalPrice?: number;
     price: number;
     rating?: number;
+    manufacturer?: string | null;
+    sku?: string;
+    quantityAvailable?: number | null;
   };
   variant?: "compact" | "default";
 };
@@ -98,7 +102,7 @@ export function ProductCard({
 
   return (
     <div className={cn("group", className)} {...props}>
-      <Link href={`/products/${product.id}`}>
+      <Link href={`/products/${product.slug}`}>
         <Card
           className={cn(
             `
@@ -184,10 +188,17 @@ export function ProductCard({
               {product.name}
             </h3>
 
+            {/* Manufacturer */}
+            {product.manufacturer && (
+              <p className="mt-1 text-xs text-muted-foreground">
+                by {product.manufacturer}
+              </p>
+            )}
+
             {variant === "default" && (
               <>
-                <div className="mt-1.5">{renderStars()}</div>
-                <div className="mt-2 flex items-center gap-1.5">
+                <div className="">{renderStars()}</div>
+                <div className="flex items-center gap-1.5">
                   <span className="font-medium text-foreground">
                     GHS {product.price.toFixed(2)}
                   </span>
@@ -196,6 +207,31 @@ export function ProductCard({
                       GHS {product.originalPrice.toFixed(2)}
                     </span>
                   ) : null}
+                </div>
+                
+                {/* Stock status */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    {product.inStock ? (
+                      <Badge variant="secondary" className="text-xs">
+                        In Stock
+                      </Badge>
+                    ) : (
+                      <Badge variant="destructive" className="text-xs">
+                        Out of Stock
+                      </Badge>
+                    )}
+                    {product.quantityAvailable && product.quantityAvailable > 0 && (
+                      <span className="text-xs text-muted-foreground">
+                        ({product.quantityAvailable} left)
+                      </span>
+                    )}
+                  </div>
+                  {product.sku && (
+                    <span className="text-xs text-muted-foreground">
+                      SKU: {product.sku}
+                    </span>
+                  )}
                 </div>
               </>
             )}

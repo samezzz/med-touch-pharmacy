@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Plus, Search, AlertTriangle, TrendingUp, TrendingDown, Package, Trash2 } from "lucide-react";
+import { Plus, Search, AlertTriangle, TrendingUp, TrendingDown, Package, Edit, Trash2 } from "lucide-react";
 
 import { Button } from "@/ui/primitives/button";
 import { Input } from "@/ui/primitives/input";
@@ -41,7 +41,9 @@ export function EnhancedInventoryManagement({ }: InventoryManagementProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedFilter, setSelectedFilter] = useState<string>("all");
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isAdjustmentDialogOpen, setIsAdjustmentDialogOpen] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [adjustmentData, setAdjustmentData] = useState({
     type: "adjustment",
@@ -177,6 +179,26 @@ export function EnhancedInventoryManagement({ }: InventoryManagementProps) {
     }
   };
 
+  // Update product
+  const handleUpdateProduct = async () => {
+    if (!editingProduct) return;
+
+    try {
+      const response = await fetch(`/api/admin/inventory/${editingProduct.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(editingProduct),
+      });
+
+      if (response.ok) {
+        setIsEditDialogOpen(false);
+        setEditingProduct(null);
+        loadInventory();
+      }
+    } catch (error) {
+      console.error('Error updating product:', error);
+    }
+  };
 
   // Delete product
   const handleDeleteProduct = async (productId: string) => {
@@ -317,6 +339,107 @@ export function EnhancedInventoryManagement({ }: InventoryManagementProps) {
                 Cancel
               </Button>
               <Button onClick={handleCreateProduct}>Create Product</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        {/* Edit Product Dialog */}
+        <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Edit Product</DialogTitle>
+              <DialogDescription>
+                Update product information
+              </DialogDescription>
+            </DialogHeader>
+            {editingProduct && (
+              <div className="grid gap-4 py-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="edit-name">Product Name</Label>
+                    <Input
+                      id="edit-name"
+                      value={editingProduct.name}
+                      onChange={(e) => setEditingProduct({...editingProduct, name: e.target.value})}
+                      placeholder="Enter product name"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="edit-sku">SKU</Label>
+                    <Input
+                      id="edit-sku"
+                      value={editingProduct.sku}
+                      onChange={(e) => setEditingProduct({...editingProduct, sku: e.target.value})}
+                      placeholder="Enter SKU"
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="edit-price">Price</Label>
+                    <Input
+                      id="edit-price"
+                      type="number"
+                      value={editingProduct.price}
+                      onChange={(e) => setEditingProduct({...editingProduct, price: e.target.value})}
+                      placeholder="0.00"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="edit-category">Category</Label>
+                    <Select
+                      value={editingProduct.categoryId}
+                      onValueChange={(value) => setEditingProduct({...editingProduct, categoryId: value})}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {categories.map((category) => (
+                          <SelectItem key={category.id} value={category.id}>
+                            {category.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="edit-description">Description</Label>
+                  <Textarea
+                    id="edit-description"
+                    value={editingProduct.description || ""}
+                    onChange={(e) => setEditingProduct({...editingProduct, description: e.target.value})}
+                    placeholder="Enter product description"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="edit-manufacturer">Manufacturer</Label>
+                    <Input
+                      id="edit-manufacturer"
+                      value={editingProduct.manufacturer || ""}
+                      onChange={(e) => setEditingProduct({...editingProduct, manufacturer: e.target.value})}
+                      placeholder="Enter manufacturer"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="edit-barcode">Barcode</Label>
+                    <Input
+                      id="edit-barcode"
+                      value={editingProduct.barcode || ""}
+                      onChange={(e) => setEditingProduct({...editingProduct, barcode: e.target.value})}
+                      placeholder="Enter barcode"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+                Cancel
+              </Button>
+              <Button onClick={handleUpdateProduct}>Update Product</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -485,6 +608,16 @@ export function EnhancedInventoryManagement({ }: InventoryManagementProps) {
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center space-x-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            setEditingProduct(product);
+                            setIsEditDialogOpen(true);
+                          }}
+                        >
+                          <Edit className="h-4 w-4" />
+                        </Button>
                         <Button
                           variant="ghost"
                           size="sm"

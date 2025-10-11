@@ -7,8 +7,8 @@ export const SEO_CONFIG = {
 };
 
 export const SYSTEM_CONFIG = {
-  redirectAfterSignIn: "/dashboard/uploads",
-  redirectAfterSignUp: "/dashboard/uploads",
+  redirectAfterSignIn: "/dashboard",
+  redirectAfterSignUp: "/dashboard",
   repoName: "med-touch-pharmacy",
   repoOwner: "samezzz",
   repoStars: true,

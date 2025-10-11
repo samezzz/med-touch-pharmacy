@@ -68,12 +68,12 @@ export function SignInPageClient() {
         `}
       >
         <Image
-          alt="Sign-in background image"
+          alt="Professional pharmacy and healthcare services"
           className="object-cover"
           fill
           priority
           sizes="(max-width: 768px) 0vw, 50vw"
-          src="https://images.unsplash.com/photo-1719811059181-09032aef07b8?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3"
+          src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3"
         />
         <div
           className={`

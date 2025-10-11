@@ -63,6 +63,9 @@ export function HomePageData({ categories, featuredProducts }: HomePageDataProps
               Browse our comprehensive range of pharmacy products organized by category
             </p>
           </div>
+        </div>
+        {/* Full-width rolling gallery */}
+        <div className="w-full">
           <RollingGallery
             autoplay
             pauseOnHover
@@ -72,6 +75,8 @@ export function HomePageData({ categories, featuredProducts }: HomePageDataProps
               slug: c.slug 
             }))}
           />
+        </div>
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mt-6 flex justify-center">
             <Link href="/products">
               <Button className="group h-10 px-6" size="lg" variant="outline">

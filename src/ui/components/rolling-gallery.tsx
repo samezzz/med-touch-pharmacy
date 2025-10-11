@@ -137,14 +137,14 @@ const RollingGallery: React.FC<RollingGalleryProps> = ({ autoplay = false, pause
        <>
        {/* Left gradient */}
        <div
-         className="absolute top-0 left-0 h-full w-[48px] z-10 
+         className="absolute top-0 left-0 h-full w-[24px] md:w-[48px] z-10 
            bg-[linear-gradient(to_left,rgba(0,0,0,0)_0%,#f6f7f9_50%)] 
            dark:bg-[linear-gradient(to_left,rgba(0,0,0,0)_0%,#161617_100%)]"
        />
  
        {/* Right gradient */}
        <div
-         className="absolute top-0 right-0 h-full w-[48px] z-10 
+         className="absolute top-0 right-0 h-full w-[24px] md:w-[48px] z-10 
            bg-[linear-gradient(to_right,rgba(0,0,0,0)_0%,#f6f7f9_50%)] 
            dark:bg-[linear-gradient(to_right,rgba(0,0,0,0)_0%,#19191b_100%)]"
        />
@@ -153,14 +153,14 @@ const RollingGallery: React.FC<RollingGalleryProps> = ({ autoplay = false, pause
         <>
       {/* Left gradient */}
       <div
-        className="absolute top-0 left-0 h-full w-[48px] z-10 
+        className="absolute top-0 left-0 h-full w-[80px] md:w-[48px] z-10 
           bg-[linear-gradient(to_left,rgba(0,0,0,0)_0%,#f6f7f9_50%)] 
           dark:bg-[linear-gradient(to_left,rgba(0,0,0,0)_0%,#161617_100%)]"
       />
 
       {/* Right gradient */}
       <div
-        className="absolute top-0 right-0 h-full w-[48px] z-10 
+        className="absolute top-0 right-0 h-full w-[80px] md:w-[48px] z-10 
           bg-[linear-gradient(to_right,rgba(0,0,0,0)_0%,#f6f7f9_50%)] 
           dark:bg-[linear-gradient(to_right,rgba(0,0,0,0)_0%,#19191b_100%)]"
       />

@@ -252,11 +252,11 @@ const Masonry: React.FC<MasonryProps> = ({
         {/* Price - Always shown */}
         <div className="flex items-center gap-2 mb-2">
           <span className="text-white font-bold text-lg">
-            ${price.toFixed(2)}
+            GHS {price.toFixed(2)}
           </span>
           {hasDiscount && (
             <span className="text-gray-300 line-through text-sm">
-              ${originalPrice?.toFixed(2)}
+              GHS {originalPrice?.toFixed(2)}
             </span>
           )}
         </div>

@@ -22,22 +22,16 @@ const navigationItems = [
     permission: "canViewAnalytics" as const,
   },
   {
-    name: "Products",
-    href: "/admin/products",
-    icon: Package,
-    permission: "canManageProducts" as const,
+    name: "Inventory",
+    href: "/admin/inventory",
+    icon: Warehouse,
+    permission: "canManageInventory" as const,
   },
   {
     name: "Categories",
     href: "/admin/categories",
     icon: FolderOpen,
     permission: "canManageCategories" as const,
-  },
-  {
-    name: "Inventory",
-    href: "/admin/inventory",
-    icon: Warehouse,
-    permission: "canManageInventory" as const,
   },
   {
     name: "Orders",

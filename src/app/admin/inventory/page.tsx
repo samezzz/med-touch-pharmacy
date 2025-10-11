@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { isAdmin } from "@/lib/admin-auth";
-import { InventoryManagement } from "@/ui/components/admin/inventory-management";
+import { EnhancedInventoryManagement } from "@/ui/components/admin/enhanced-inventory-management";
 
 export default async function InventoryPage() {
   const adminUser = await isAdmin();
@@ -14,5 +14,5 @@ export default async function InventoryPage() {
     redirect("/admin");
   }
 
-  return <InventoryManagement adminUser={adminUser} />;
+  return <EnhancedInventoryManagement adminUser={adminUser} />;
 }

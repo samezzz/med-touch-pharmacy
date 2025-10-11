@@ -3,9 +3,25 @@ import { createAuthClient } from "better-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
+// Get the correct base URL for the auth client
+const getBaseURL = () => {
+  // In production, always use the www version to avoid CORS issues
+  if (typeof window !== "undefined") {
+    // Client-side: use the current origin with www
+    const currentOrigin = window.location.origin;
+    if (currentOrigin.includes("med-touchpharmacy.com")) {
+      return "https://www.med-touchpharmacy.com";
+    }
+    return currentOrigin;
+  }
+  
+  // Server-side: use environment variable or default to www version
+  return process.env.NEXT_PUBLIC_APP_URL || "https://www.med-touchpharmacy.com";
+};
+
 // Create and export the auth client
 export const authClient = createAuthClient({
-  baseURL: process.env.NEXT_PUBLIC_APP_URL,
+  baseURL: getBaseURL(),
   plugins: [
     twoFactorClient({
       onTwoFactorRedirect: () => {

@@ -69,6 +69,15 @@ if (hasGoogleCredentials) {
 
 // Paystack SDK is configured in dedicated payment services, not inside auth
 
+// Get the correct base URL for the auth server
+const getServerBaseURL = () => {
+  // Always use the www version in production to avoid CORS issues
+  if (process.env.NODE_ENV === "production") {
+    return "https://www.med-touchpharmacy.com";
+  }
+  return process.env.NEXT_SERVER_APP_URL || "http://localhost:3000";
+};
+
 export const auth = betterAuth({
   account: {
     accountLinking: {
@@ -77,7 +86,7 @@ export const auth = betterAuth({
       trustedProviders: Object.keys(socialProviders),
     },
   },
-  baseURL: process.env.NEXT_SERVER_APP_URL,
+  baseURL: getServerBaseURL(),
 
   database: drizzleAdapter(db, {
     provider: "pg",

@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu, X, Home, Package, LayoutDashboard } from "lucide-react";
+import { Menu, X, Home, Package, LayoutDashboard, LogIn, UserPlus } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -20,7 +20,6 @@ const NotificationsWidget = dynamic(
   () => import("../notifications/notifications-widget").then((m) => m.NotificationsWidget),
   { ssr: false, loading: () => null },
 );
-import { ThemeToggle } from "../theme-toggle";
 import { HeaderUserDropdown } from "./header-user";
 import { DynamicCategoryNavigation } from "./dynamic-category-navigation";
 import { DynamicMobileCategories } from "./dynamic-mobile-categories";
@@ -78,13 +77,13 @@ export function Header({ showAuth = true, adminUser }: HeaderProps) {
     >
       <div
         className={`
-          container mx-auto max-w-7xl px-4
+          container mx-auto max-w-7xl px-2
           sm:px-6
           lg:px-8
         `}
       >
         <div className="flex h-16 items-center justify-between">
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-2 sm:gap-6">
             {/* Admin Mobile Menu Button */}
             {currentAdminUser && (
               <div className="lg:hidden">
@@ -162,18 +161,8 @@ export function Header({ showAuth = true, adminUser }: HeaderProps) {
               <NotificationsWidget />
             )}
 
-            {isPending ? (
-              <Skeleton className={`h-9 w-9 rounded-full`} />
-            ) : (
-              <ThemeToggle />
-            )}
-
             {showAuth && (
-              <div
-                className={`
-                  
-                `}
-              >
+              <>
                 {user ? (
                   <HeaderUserDropdown
                     isDashboard={false}
@@ -185,7 +174,7 @@ export function Header({ showAuth = true, adminUser }: HeaderProps) {
                 ) : isPending ? (
                   <Skeleton className="h-10 w-32" />
                 ) : (
-                  <div className="flex items-center gap-2">
+                  <div className="hidden md:flex items-center gap-2">
                     <Link href="/auth/sign-in">
                       <Button size="sm" variant="ghost">
                         Log in
@@ -196,7 +185,7 @@ export function Header({ showAuth = true, adminUser }: HeaderProps) {
                     </Link>
                   </div>
                 )}
-              </div>
+              </>
             )}
 
             {/* Mobile menu button */}
@@ -238,7 +227,7 @@ export function Header({ showAuth = true, adminUser }: HeaderProps) {
                         isActive
                           ? "bg-primary/10 text-primary"
                           : `
-                            text-foreground
+                            text-muted-foreground
                             hover:bg-muted/50 hover:text-primary
                           `,
                       )}
@@ -278,28 +267,31 @@ export function Header({ showAuth = true, adminUser }: HeaderProps) {
           </div>
 
           {showAuth && !user && (
-            <div className="space-y-1 border-b px-4 py-3">
-              <Link
-                className={`
-                  block rounded-md px-3 py-2 text-base font-medium
-                  hover:bg-muted/50
-                `}
-                href="/auth/sign-in"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Log in
-              </Link>
-              <Link
-                className={`
-                  block rounded-md bg-primary px-3 py-2 text-base font-medium
-                  text-primary-foreground
-                  hover:bg-primary/90
-                `}
-                href="/auth/sign-up"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Sign up
-              </Link>
+            <div className="border-b px-4 py-3">
+              <div className="flex gap-2">
+                <Link
+                  className={`
+                    flex items-center gap-2 rounded-md px-3 py-2 text-base font-medium
+                    hover:bg-muted/50 flex-1 justify-center
+                  `}
+                  href="/auth/sign-in"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <LogIn className="h-4 w-4" />
+                  Log in
+                </Link>
+                <Link
+                  className={`
+                    flex items-center gap-2 rounded-md bg-primary px-3 py-2 text-base font-medium
+                    text-primary-foreground hover:bg-primary/90 flex-1 justify-center
+                  `}
+                  href="/auth/sign-up"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <UserPlus className="h-4 w-4" />
+                  Sign up
+                </Link>
+              </div>
             </div>
           )}
         </div>

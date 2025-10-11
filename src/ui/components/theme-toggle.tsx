@@ -42,13 +42,12 @@ export function ThemeToggle({ className }: { className?: string }) {
         <Button
           className={cn(
             `
-              h-9 w-9 rounded-full bg-background transition-colors
-              hover:bg-muted
+              h-9 w-9 rounded-full transition-colors
             `,
             className,
           )}
           size="icon"
-          variant="ghost"
+          variant="outline"
         >
           <Sun
             className={`

@@ -18,26 +18,26 @@ import { testimonials } from "./mocks";
 const featuresWhyChooseUs = [
   {
     description:
-      "Free shipping on all orders over $50. Fast and reliable delivery to your doorstep.",
-    icon: <Truck className="h-6 w-6 text-primary" />,
-    title: "Free Shipping",
+      "Shop with complete confidence knowing that if any goods have problems, we'll make it right.",
+    icon: <ShoppingBag className="h-6 w-6 text-primary" />,
+    title: "Shop With Confidence",
   },
   {
     description:
       "Your payment information is always safe and secure with us. We use industry-leading encryption.",
-    icon: <ShoppingBag className="h-6 w-6 text-primary" />,
+    icon: <Truck className="h-6 w-6 text-primary" />,
     title: "Secure Checkout",
   },
   {
     description:
-      "Our customer support team is always available to help with any questions or concerns.",
-    icon: <Clock className="h-6 w-6 text-primary" />,
-    title: "24/7 Support",
+      "Experience our friendly services backed by a comprehensive 30-day satisfaction guarantee.",
+    icon: <Star className="h-6 w-6 text-primary" />,
+    title: "Friendly Services",
   },
   {
     description:
-      "We stand behind the quality of every product we sell. 30-day money-back guarantee.",
-    icon: <Star className="h-6 w-6 text-primary" />,
+      "We stand behind the quality of every pharmaceutical product we sell. 30-day money-back guarantee.",
+    icon: <Clock className="h-6 w-6 text-primary" />,
     title: "Quality Guarantee",
   },
 ];
@@ -188,12 +188,12 @@ export default async function HomePage() {
                   `}
                 >
                   <div className="flex items-center gap-1.5">
-                    <Truck className="h-5 w-5 text-primary/70" />
-                    <span>Free shipping over $50</span>
+                    <ShoppingBag className="h-5 w-5 text-primary/70" />
+                    <span>Shop With Confidence</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <Clock className="h-5 w-5 text-primary/70" />
-                    <span>24/7 Customer Support</span>
+                    <Star className="h-5 w-5 text-primary/70" />
+                    <span>30 Day Satisfaction Guarantee</span>
                   </div>
                 </div>
               </div>
@@ -211,12 +211,12 @@ export default async function HomePage() {
                   `}
                 />
                 <Image
-                  alt="Pharmacy shopping experience"
+                  alt="Professional pharmacy and healthcare services"
                   className="object-cover"
                   fill
                   priority
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  src="https://images.unsplash.com/photo-1624767735494-1929dc24ad43?w=400&auto=format&fit=crop&q=80&ixlib=rb-4.0.3"
+                  src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=400&auto=format&fit=crop&q=80&ixlib=rb-4.0.3"
                 />
               </div>
             </div>
